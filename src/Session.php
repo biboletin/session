@@ -101,10 +101,8 @@ class Session
         $this->httpOnly = ini_get('session.cookie_httponly') === '1';
         $this->sameSite = ini_get('session.cookie_samesite') ?: 'Lax';
         $this->savePath = ini_get('session.save_path') ?: sys_get_temp_dir();
-        // Generate a random secret key for encryption
-        // 32 bytes = 256 bits
-        $secret = hex2bin(bin2hex(random_bytes(32)));
-        $this->handler = new EncryptedSessionHandler($secret);
+        
+        $this->handler = new EncryptedSessionHandler();
     }
 
     /**

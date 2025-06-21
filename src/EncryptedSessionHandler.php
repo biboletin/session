@@ -2,7 +2,11 @@
 
 namespace Biboletin\Session;
 
+use Biboletin\Crypto\Crypto;
+use Biboletin\Exceptions\Custom\Crypto\DecryptException;
+use Biboletin\Exceptions\Custom\Crypto\EncryptException;
 use InvalidArgumentException;
+use Random\RandomException;
 use SessionHandlerInterface;
 
 /**
@@ -15,48 +19,25 @@ use SessionHandlerInterface;
  */
 class EncryptedSessionHandler implements SessionHandlerInterface
 {
-    /**
-     * The encryption cipher method to use (AES-256-CBC or AES-128-CBC)
-     *
-     * @var string
-     */
-    private string $encrypter;
-
+    private Crypto $crypto;
     /**
      * The directory path where session files will be stored
      *
      * @var string
      */
-    private $savePath;
+    private string $savePath;
 
     /**
-     * The encryption key used for encrypting and decrypting session data
-     *
-     * @var string
+     * The encryption method used for session data
+     * 
+     * @throws RandomException
      */
-    private $key;
-
-    /**
-     * Constructor for the EncryptedSessionHandler
-     *
-     * Initializes the session handler with the encryption key and cipher method.
-     *
-     * @param string $key      The encryption key (must be exactly 32 characters long)
-     * @param string $encrypter The encryption cipher method to use (default: AES-256-CBC)
-     *
-     * @throws InvalidArgumentException If the key length is not 32 characters or if an invalid encrypter is specified
-     */
-    public function __construct(string $key, string $encrypter = 'AES-256-CBC')
+    public function __construct()
     {
-        if (strlen($key) !== 32) {
-            throw new InvalidArgumentException('The encryption key must be 32 characters long.');
-        }
-        if (!in_array($encrypter, ['AES-256-CBC', 'AES-128-CBC'])) {
-            throw new InvalidArgumentException('Invalid encrypter specified. Use AES-256-CBC or AES-128-CBC.');
-        }
-
-        $this->encrypter = $encrypter;
-        $this->key = $key;
+        // Generate a random secret key for encryption
+        // 32 bytes = 256 bits
+        $secret = hex2bin(bin2hex(random_bytes(32)));
+        $this->crypto = new Crypto($secret);
     }
 
     /**
@@ -69,7 +50,7 @@ class EncryptedSessionHandler implements SessionHandlerInterface
      */
     public function close(): bool
     {
-        return  true;
+        return true;
     }
 
     /**
@@ -177,11 +158,13 @@ class EncryptedSessionHandler implements SessionHandlerInterface
      *
      * @return string The encrypted data, base64 encoded
      */
-    private function encrypt(string $data): string
+    public function encrypt(string $data): string
     {
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->encrypter));
-        $encrypted = openssl_encrypt($data, $this->encrypter, $this->encrypter, 0, $iv);
-        return base64_encode($iv . $encrypted);
+        try {
+            return $this->crypto->encrypt($data);
+        } catch (RandomException|EncryptException $exception) {
+            return $exception->getMessage();
+        }
     }
 
     /**
@@ -191,14 +174,14 @@ class EncryptedSessionHandler implements SessionHandlerInterface
      *
      * @param string $data The base64 encoded encrypted data
      *
-     * @return string|false The decrypted data or false on failure
+     * @return string|null The decrypted data or false on failure
      */
-    private function decrypt(string $data): string|false
+    public function decrypt(string $data): ?string
     {
-        $data = base64_decode($data);
-        $iv_length = openssl_cipher_iv_length($this->encrypter);
-        $iv = substr($data, 0, $iv_length);
-        $encrypted = substr($data, $iv_length);
-        return openssl_decrypt($encrypted, $this->encrypter, $this->encrypter, 0, $iv);
+        try {
+            return $this->crypto->decrypt($data) ?? null;
+        } catch (InvalidArgumentException $exception) {
+            return $exception->getMessage();
+        }        
     }
 }

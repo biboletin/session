@@ -4,8 +4,149 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b362132cc173e49061613acd03aaf1e",
-    "packages": [],
+    "content-hash": "72a01df696d7e9dd89d4a13be9005a1f",
+    "packages": [
+        {
+            "name": "biboletin/crypto",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/biboletin/crypto.git",
+                "reference": "451cbf174602bcbd5e0e2a5adf6107b86be9022f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/biboletin/crypto/zipball/451cbf174602bcbd5e0e2a5adf6107b86be9022f",
+                "reference": "451cbf174602bcbd5e0e2a5adf6107b86be9022f",
+                "shasum": ""
+            },
+            "require": {
+                "biboletin/enum": "dev-main",
+                "biboletin/exception": "dev-main",
+                "ext-openssl": "*"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "2.1.x-dev",
+                "phpunit/phpunit": "^12",
+                "squizlabs/php_codesniffer": "*",
+                "symfony/var-dumper": "8.0.x-dev",
+                "vimeo/psalm": "^7.0@dev"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Biboletin\\Crypto\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "biboletin",
+                    "email": "shady_fan@abv.bg"
+                }
+            ],
+            "description": "Crypto class",
+            "support": {
+                "issues": "https://github.com/biboletin/crypto/issues",
+                "source": "https://github.com/biboletin/crypto/tree/main"
+            },
+            "time": "2025-06-21T21:11:08+00:00"
+        },
+        {
+            "name": "biboletin/enum",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/biboletin/enum.git",
+                "reference": "78e498b6b8ad21ff275de920d80056bffa7ddb0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/biboletin/enum/zipball/78e498b6b8ad21ff275de920d80056bffa7ddb0a",
+                "reference": "78e498b6b8ad21ff275de920d80056bffa7ddb0a",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpstan/phpstan": "2.1.x-dev",
+                "phpunit/phpunit": "^12",
+                "squizlabs/php_codesniffer": "*",
+                "symfony/var-dumper": "7.3.x-dev",
+                "vimeo/psalm": "^7.0@dev"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Biboletin\\Enum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "biboletin",
+                    "email": "shady_fan@abv.bg"
+                }
+            ],
+            "description": "Enums",
+            "support": {
+                "issues": "https://github.com/biboletin/enum/issues",
+                "source": "https://github.com/biboletin/enum/tree/main"
+            },
+            "time": "2025-06-21T20:57:39+00:00"
+        },
+        {
+            "name": "biboletin/exception",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/biboletin/exception.git",
+                "reference": "7f13bba1c91049e2c2dcfbb8b5faf3b7d058f7cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/biboletin/exception/zipball/7f13bba1c91049e2c2dcfbb8b5faf3b7d058f7cc",
+                "reference": "7f13bba1c91049e2c2dcfbb8b5faf3b7d058f7cc",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpstan/phpstan": "2.1.x-dev",
+                "phpunit/phpunit": "^12",
+                "squizlabs/php_codesniffer": "*",
+                "symfony/var-dumper": "7.3.x-dev",
+                "vimeo/psalm": "^7.0@dev"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Biboletin\\Exceptions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "biboletin",
+                    "email": "shady_fan@abv.bg"
+                }
+            ],
+            "description": "Exception handler",
+            "support": {
+                "issues": "https://github.com/biboletin/exception/issues",
+                "source": "https://github.com/biboletin/exception/tree/main"
+            },
+            "time": "2025-06-21T15:34:03+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "amphp/amp",
@@ -5257,13 +5398,16 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "biboletin/crypto": 20,
         "phpstan/phpstan": 20,
         "symfony/var-dumper": 20,
         "vimeo/psalm": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {},
+    "platform": {
+        "ext-openssl": "*"
+    },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

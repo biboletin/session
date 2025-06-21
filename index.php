@@ -29,12 +29,14 @@ $session->set('user', 'John Doe'); // Store user name in session
 $session->set('role', 'admin'); // Store user role in session
 
 // Debugging lines (commented out)
-dd($session->get('user'), $_SESSION);
+// dd($session->get('user'), $_SESSION);
+// dd($session->get('user'), $session->get('role'));
+// dd($_SESSION);
 // dd($session, session_save_path(), ini_get('session.save_path'));
-echo session_save_path();
+// echo session_save_path();
 // Destroy the session
-// $session->destroy();
-// $session->purge();
+$session->destroy();
+$session->purge();
 
 // Dump the session object for debugging
 dd($session);
